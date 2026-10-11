@@ -1,0 +1,128 @@
+:root {
+    --wood-back:     #B4824C; /* recessed back panel */
+    --back-background:
+            repeating-linear-gradient(
+                    90deg,
+                    transparent 0 6px,
+                    var(--grain) 6px 7px,
+                    transparent 7px 15px
+            ),
+            var(--wood-back);
+    --wood-side:     #9A6834; /* side panels */
+    --shelf-front:   #D9A96A; /* lit front lip of each shelf */
+    --shelf-top:     #C08F55; /* surface books sit on */
+    --header:        #7A4E28; /* darker header wood */
+    --grain:         rgba(90, 50, 20, 0.12);
+    --shelf-shadow:  rgba(50, 25, 5, 0.55);
+    --frame:        #8A5A2B; /* front face of the side panels */
+    --wall-light:   #A87238; /* inner wall, near the front */
+    --wall-dark:    #6E451E; /* inner wall, near the back */
+    --wall-depth:   1em;     /* how far the walls recede */
+    --container-padding:      .25em;
+    --linear-wood-gradient: repeating-linear-gradient(
+            to bottom,
+            transparent 0 5px,
+            rgba(60, 30, 10, 0.1) 5px 6px,
+            transparent 6px 14px
+    )
+}
+
+
+main {
+    width: 100%;
+    background: var(--back-background);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 75px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .1em;
+    .buttons {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+    }
+}
+
+.book {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 2em;
+    max-width: 2em;
+    min-height: 3em;
+    max-height: 3em;
+    z-index: 4;
+    box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: .5em;
+    border-radius: 0.2em 0.2em 0.2em 0.2em;
+    padding: 0.25em;
+    background:
+            repeating-linear-gradient(
+                    to bottom,
+                    transparent 0 5px,
+                    rgba(60, 30, 10, 0.1) 5px 6px,
+                    transparent 6px 14px
+            ),
+            linear-gradient(
+                    to bottom,
+                    #9A6836,
+                    var(--header) 75%,
+                    #888
+            );
+}
+
+.form-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    label {
+        font-size: .35em;
+        font-weight: bold;
+    }
+    input {
+        font-size: .35em;
+        width: calc(100% - 2 * var(--container-padding));
+        padding: 5px;
+        background: var(--linear-wood-gradient);
+        background-color: var(--shelf-front);
+        outline: none;
+        border: none;
+        border-radius: var(--container-padding);
+    }
+}
+
+button:hover {
+    transform: scale(1.05);
+    transition: 0.15s;
+    box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
+}
+
+@media (max-width: 600px) {
+    main {
+        font-size: 35px;
+    }
+    .form-element {
+        input {
+            font-size: .75em;
+        }
+        label {
+            font-size: .75em;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 import {type Book} from './BookCase.tsx'
+import BookElement from './BookElement.tsx'
 
 type ShelfTypes = {
     books: Book[]
@@ -9,7 +10,7 @@ export default function Shelf({ books }:ShelfTypes) {
         <div className="shelf-wrapper">
             <div className="book-wrapper">
                 {books.map(book => (
-                    <div className="book" style={{background: book.colour}} key={book.id}><p style={{fontSize: "0.3em"}}>{book.title}</p></div>
+                    <BookElement bookDetails={book} />
                 ))}
             </div>
             <div className="shelf">

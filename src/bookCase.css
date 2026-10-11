@@ -1,17 +1,3 @@
-:root {
-    --wood-back:     #B4824C; /* recessed back panel */
-    --wood-side:     #9A6834; /* side panels */
-    --shelf-front:   #D9A96A; /* lit front lip of each shelf */
-    --shelf-top:     #C08F55; /* surface books sit on */
-    --header:        #7A4E28; /* darker header wood */
-    --grain:         rgba(90, 50, 20, 0.12);
-    --shelf-shadow:  rgba(50, 25, 5, 0.55);
-    --frame:        #8A5A2B; /* front face of the side panels */
-    --wall-light:   #A87238; /* inner wall, near the front */
-    --wall-dark:    #6E451E; /* inner wall, near the back */
-    --wall-depth:   1em;     /* how far the walls recede */
-}
-
 html {
     min-width: 360px !important;
     font-family: 'Inter', sans-serif;
@@ -19,18 +5,6 @@ html {
 
 body {
     margin: 0;
-}
-
-main {
-    width: 100%;
-    background: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 75px;
-    perspective: 10em;
-    perspective-origin: 50% calc(50% - 2em);
 }
 
 .bookCase {
@@ -48,14 +22,6 @@ main {
         z-index: -2;
         height: 100%;
         width: 100%;
-        background:
-                repeating-linear-gradient(
-                        90deg,
-                        transparent 0 6px,
-                        var(--grain) 6px 7px,
-                        transparent 7px 15px
-                ),
-                var(--wood-back);
     }
 
     .header {
@@ -66,16 +32,10 @@ main {
         align-items: center;
         z-index: 1;
         background:
-                repeating-linear-gradient(
-                        to bottom,
-                        transparent 0 5px,
-                        rgba(60, 30, 10, 0.1) 5px 6px,
-                        transparent 6px 14px
-                ),
+                var(--linear-wood-gradient),
                 linear-gradient(
                         to bottom,
                         #9A6836,
-                        var(--header) 55%,
                         #5E3A1A
                 );
         border-bottom: 0.05em solid #C99258;
@@ -96,24 +56,21 @@ main {
             height: 100%;
             padding: 0 0.5em 0 0;
             button {
-                border-radius: 0.2em 0.2em 0.2em 0.2em;
-                padding: 0.25em;
-                font-size: 0.5em;
                 outline: none;
                 border: none;
+                cursor: pointer;
+                background-color: var(--header);
             }
             .add {
-                width: 1.5em;
-                height: 1.5em;
-                /*padding: 0 0 0.75em 0;*/
+                padding: 0.25em 0.5em;
             }
         }
     }
 }
+
 .side {
     position: absolute;
     top: 0;
-    z-index: -1;
     width: var(--wall-depth);
     height: 100%;
 }
@@ -131,7 +88,7 @@ main {
 }
 
 .shelf-wrapper {
-    height: 4em;
+    height: 4.5em;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -194,34 +151,13 @@ main {
     padding: 0 1em 0 1em;
 }
 
-.book {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 2em;
-    max-width: 2em;
-    min-height: 2.5em;
-    max-height: 2.5em;
-    background: red;
-    z-index: 4;
-    box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
-    cursor: pointer;
-    p {
-        text-align: center;
-        width: 100%;
-        text-wrap: auto;
-        white-space: break-spaces;
-    }
-}
+
 
 .book:hover {
     transform: scale(1.1);
 }
 
 @media (max-width: 600px) {
-    main {
-        font-size: 35px;
-    }
     .shelf-wrapper {
         height: 5.5em;
     }

@@ -3,19 +3,18 @@ import Shelf from './Shelf.tsx'
 import '../bookCase.css'
 
 export type Book = {
-    id: number;
+    id: string;
+    author: string[];
+    cover: string;
     title: string;
-    author: string;
-    year: number;
-    genre: string;
-    colour: string;
 }
 
 type BookCaseProps = {
     books: Book[];
+    setActiveView: (activeView:string) => void;
 }
 
-export default function BookCase({books}:BookCaseProps) {
+export default function BookCase({books, setActiveView}:BookCaseProps) {
 
 // Sample data for testing the bookcase layout.
 // `colour` is optional: handy for giving each spine a different look.
@@ -51,14 +50,16 @@ export default function BookCase({books}:BookCaseProps) {
     while (shelves.length < MIN_SHELVES) shelves.push([]);
 
     return (
-        <main>
+        <>
             <div className="bookCase">
                 <div className="back"></div>
                 <div className="header">
                     <p>{user.username}'s Library</p>
                     <div className="menu">
                         <button>Profile</button>
-                        <button className={"add"}>+</button>
+                        <button className={"add"} onClick={() => {
+                            setActiveView("addBook")
+                        }}>+</button>
                     </div>
 
                 </div>
@@ -69,6 +70,6 @@ export default function BookCase({books}:BookCaseProps) {
                     <Shelf key={i} books={shelfBooks} />
                 ))}
             </div>
-        </main>
+        </>
     );
 }
