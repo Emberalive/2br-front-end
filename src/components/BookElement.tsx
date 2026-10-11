@@ -6,6 +6,8 @@ type BookProps = {
 
 export default function BookElement ({bookDetails}:BookProps) {
     return (
-        <img className={"book"} src={bookDetails.cover} alt={`book cover for ${bookDetails.title}`} />
+        <div className="book">
+            <img src={bookDetails.cover} alt={bookDetails.title}/>
+        </div>
     )
 }

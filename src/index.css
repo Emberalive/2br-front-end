@@ -54,8 +54,8 @@ form {
 
 .book {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-width: 2em;
     max-width: 2em;
     min-height: 3em;
@@ -63,6 +63,16 @@ form {
     z-index: 4;
     box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
     cursor: pointer;
+    background: var(--linear-wood-gradient), var(--header);
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.book img {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    font-size: .2em; /* or 12px, etc. */
 }
 
 button {
