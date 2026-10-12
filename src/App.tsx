@@ -3,6 +3,7 @@ import BookCase, {type Book} from "./components/BookCase.tsx";
 import {type JSX, useEffect, useState} from "react";
 import AddBook from "./components/AddBook.tsx";
 import Login from "./components/Login.tsx";
+import BookExpanded from "./components/BookExpanded.tsx";
 
 
 export type User = {
@@ -16,6 +17,7 @@ export default function  App(): JSX.Element {
     const [books, setBooks] = useState<Book[]>([]);
     const [user, setUser] = useState<User | object>({})
     const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem("sessionId"))
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
     useEffect(() => {
         async function authenticateSession (sessionId: string | null): Promise<void> {
@@ -59,9 +61,10 @@ export default function  App(): JSX.Element {
 
     return (
       <main>
-          {activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId}/>}
-          {activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user}/>}
-          {activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId}/>}
+          {selectedBook &&<BookExpanded book={selectedBook} setSelectedBook={setSelectedBook}/>}
+          {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId}/>}
+          {!selectedBook && activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
+          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId}/>}
       </main>
     )
 }

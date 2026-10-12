@@ -88,6 +88,36 @@ form {
     font-size: .2em; /* or 12px, etc. */
 }
 
+.expanded-book {
+    width: 8em;
+    height: 12em;
+}
+
+.book-details > * {
+    margin: 0;
+}
+
+.book-details {
+    padding: .25em;
+    width: 8em;
+    background: var(--linear-wood-gradient), var(--wood-back);
+    margin-top: .5em;
+    border-radius: 0.2em;
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    h1 {
+        font-size: .5em;
+        margin: 0;
+    }
+    p {
+        font-size: .35em;
+    }
+}
+
 .component__wrapper {
     position: absolute;
     top: 0;

@@ -1,11 +1,11 @@
-import {useEffect, useState} from "react";
+import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import Shelf from './Shelf.tsx'
 import '../bookCase.css'
 import type {User} from "../App.tsx";
 
 export type Book = {
     id: string;
-    author: string[];
+    authors: string[];
     cover: string;
     title: string;
 }
@@ -14,12 +14,10 @@ type BookCaseProps = {
     books: Book[];
     setActiveView: (activeView:string) => void;
     user: User | object
+    setSelectedBook: Dispatch<SetStateAction<Book | null>>
 }
 
-export default function BookCase({books, setActiveView, user}:BookCaseProps) {
-
-// Sample data for testing the bookcase layout.
-// `colour` is optional: handy for giving each spine a different look.
+export default function BookCase({books, setActiveView, user, setSelectedBook}:BookCaseProps) {
 
     const [viewPort, setViewPort ] = useState<number>(window.innerWidth);
 
@@ -65,7 +63,7 @@ export default function BookCase({books, setActiveView, user}:BookCaseProps) {
                 <div className="right-side side"></div>
 
                 {shelves.map((shelfBooks, i) => (
-                    <Shelf key={i} books={shelfBooks} />
+                    <Shelf key={i} books={shelfBooks} setSelectedBook={setSelectedBook}/>
                 ))}
             </div>
         </>
