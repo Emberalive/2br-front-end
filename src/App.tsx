@@ -14,7 +14,7 @@ export default function  App(): JSX.Element {
     const API:string = "http://localhost:2000/";
     const [activeView, setActiveView] = useState<string>("login");
     const [books, setBooks] = useState<Book[]>([]);
-    const [user, setUser] = useState<object>({})
+    const [user, setUser] = useState<User | object>({})
     const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem("sessionId"))
 
     useEffect(() => {
@@ -29,7 +29,8 @@ export default function  App(): JSX.Element {
             });
             if (!response.ok) return
             const resData = await response.json();
-            if(!resData) return
+            if(!resData.success) return
+            setUser(resData.user);
             setActiveView("bookcase")
         }
         authenticateSession(sessionId);

@@ -13,7 +13,7 @@ export type Book = {
 type BookCaseProps = {
     books: Book[];
     setActiveView: (activeView:string) => void;
-    user: User
+    user: User | object
 }
 
 export default function BookCase({books, setActiveView, user}:BookCaseProps) {
