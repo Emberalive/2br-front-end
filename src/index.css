@@ -50,6 +50,19 @@ form {
         align-items: center;
         width: 100%;
     }
+    .link__buttons {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+        .link-button {
+            margin: 0;
+            font-size: .2em;
+            color: var(--wall-dark);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
 }
 
 .book {
@@ -73,6 +86,57 @@ form {
     height: 100%;
     font-weight: bold;
     font-size: .2em; /* or 12px, etc. */
+}
+
+.component__wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: brightness(0.7);
+
+    .component__container {
+        display: flex;
+        background: var(--back-background);
+        z-index: 1;
+        align-items: center;
+        border-radius: 0.25em;
+        max-width: 60%;
+        height: fit-content;
+        box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
+        padding: .25em;
+        gap: 0.25em;
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: .35em;
+            width: 220px;
+            height: 6em;
+            border-right: 2px solid #7A4E28;
+            padding-right: 0.5em;
+            /*h1 {*/
+            /*    margin: 0 0 1em 0;*/
+            /*}*/
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .component__wrapper {
+        .component__container {
+            width: 90%;
+            header {
+                font-size: .5em;
+            }
+        }
+    }
 }
 
 button {

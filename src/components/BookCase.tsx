@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import Shelf from './Shelf.tsx'
 import '../bookCase.css'
+import type {User} from "../App.tsx";
 
 export type Book = {
     id: string;
@@ -12,9 +13,10 @@ export type Book = {
 type BookCaseProps = {
     books: Book[];
     setActiveView: (activeView:string) => void;
+    user: User
 }
 
-export default function BookCase({books, setActiveView}:BookCaseProps) {
+export default function BookCase({books, setActiveView, user}:BookCaseProps) {
 
 // Sample data for testing the bookcase layout.
 // `colour` is optional: handy for giving each spine a different look.
@@ -30,10 +32,6 @@ export default function BookCase({books, setActiveView}:BookCaseProps) {
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
     }, [windowWidth])
-
-    const user = {
-        username: "Nevel"
-    }
 
     const BOOKS_PER_SHELF:number = viewPort > 1200 ? 7 : viewPort < 900 ? viewPort < 625 ? 4 : 3 : 5;
     const MIN_SHELVES = 8; // keeps the bookcase looking full when there are few books

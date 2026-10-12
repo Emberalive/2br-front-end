@@ -7,10 +7,11 @@ type Props = {
     setBooks: Dispatch<SetStateAction<Book[]>>
     setActiveView: Dispatch<SetStateAction<string>>
     api:string
+    sessionId:string | null
 }
 
 
-export default function AddBook({setBooks, api, setActiveView}:Props) {
+export default function AddBook({setBooks, api, setActiveView, sessionId}:Props) {
 
     const [bookName, setBookName] = useState("")
 
@@ -20,6 +21,7 @@ export default function AddBook({setBooks, api, setActiveView}:Props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                "x-session-id": sessionId ? sessionId : "",
             },
             body: JSON.stringify({
                 param: bookName,
@@ -37,8 +39,8 @@ export default function AddBook({setBooks, api, setActiveView}:Props) {
     }
 
     return (
-        <div className="add-book__wrapper">
-            <div className="add-book__container">
+        <div className="component__wrapper">
+            <div className="component__container">
                 <header>
                     <h1>Add Book</h1>
                 </header>
