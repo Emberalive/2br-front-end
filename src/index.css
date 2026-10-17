@@ -1,5 +1,5 @@
 :root {
-    --wood-back:     #B4824C; /* recessed back panel */
+    --wood-back:     #6B4226; /* recessed back panel */
     --back-background:
             repeating-linear-gradient(
                     90deg,
@@ -8,21 +8,21 @@
                     transparent 7px 15px
             ),
             var(--wood-back);
-    --wood-side:     #9A6834; /* side panels */
-    --shelf-front:   #D9A96A; /* lit front lip of each shelf */
-    --shelf-top:     #C08F55; /* surface books sit on */
-    --header:        #7A4E28; /* darker header wood */
-    --grain:         rgba(90, 50, 20, 0.12);
-    --shelf-shadow:  rgba(50, 25, 5, 0.55);
-    --frame:        #8A5A2B; /* front face of the side panels */
-    --wall-light:   #A87238; /* inner wall, near the front */
-    --wall-dark:    #6E451E; /* inner wall, near the back */
+    --wood-side:     #5A3520; /* side panels */
+    --shelf-front:   #8C5A36; /* lit front lip of each shelf */
+    --shelf-top:     #774A2C; /* surface books sit on */
+    --header:        #3F2415; /* darker header wood */
+    --grain:         rgba(30, 15, 5, 0.18);
+    --shelf-shadow:  rgba(20, 8, 2, 0.65);
+    --frame:        #4E2E1B; /* front face of the side panels */
+    --wall-light:   #63391F; /* inner wall, near the front */
+    --wall-dark:    #3A2112; /* inner wall, near the back */
     --wall-depth:   1em;     /* how far the walls recede */
     --container-padding:      .25em;
     --linear-wood-gradient: repeating-linear-gradient(
             to bottom,
             transparent 0 5px,
-            rgba(60, 30, 10, 0.1) 5px 6px,
+            rgba(25, 12, 4, 0.14) 5px 6px,
             transparent 6px 14px
     )
 }

@@ -1,6 +1,7 @@
 import {type Book} from './BookCase'
 import {type Dispatch, type SetStateAction, useState} from "react"
 import * as React from "react";
+import BookLoader from '../assets/book-loader.svg'
 
 type Props = {
     setBooks: Dispatch<SetStateAction<Book[]>>
@@ -11,11 +12,12 @@ type Props = {
 
 
 export default function AddBook({setBooks, api, setActiveView, sessionId}:Props) {
-
+    const [fetchingBook, setFetchingBook] = React.useState<boolean>(false)
     const [bookName, setBookName] = useState("")
 
     async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>):Promise<undefined> {
         e.preventDefault();
+        setFetchingBook(true);
         const response = await fetch(`${api}book`, {
             method: 'POST',
             headers: {
@@ -33,6 +35,7 @@ export default function AddBook({setBooks, api, setActiveView, sessionId}:Props)
         setBooks((prev):Book[] =>  {
             return [...prev, resData.book]
         })
+        setFetchingBook(false);
         setActiveView("bookcase")
         return
     }
@@ -58,6 +61,7 @@ export default function AddBook({setBooks, api, setActiveView, sessionId}:Props)
                     </div>
                 </form>
             </div>
+            {fetchingBook && <img src={BookLoader} width={64} alt={"Loading"}/>}
         </div>
     )
 }

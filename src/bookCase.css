@@ -31,19 +31,20 @@ body {
         justify-content: space-between;
         align-items: center;
         z-index: 1;
+        color: #F2E2CC;
         background:
                 var(--linear-wood-gradient),
                 linear-gradient(
                         to bottom,
-                        #9A6836,
-                        #5E3A1A
+                        #5C3720,
+                        #2E1A0E
                 );
-        border-bottom: 0.05em solid #C99258;
+        border-bottom: 0.05em solid #7A4C2E;
         box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
 
         p {
             margin: 0;
-            font-weight: 0;
+            font-weight: 400;
             font-size: 1em;
         }
 
@@ -59,6 +60,7 @@ body {
                 outline: none;
                 border: none;
                 cursor: pointer;
+                color: inherit;
                 background-color: var(--header);
             }
             .add {
@@ -112,9 +114,9 @@ body {
             height: 1em;
             background: linear-gradient(
                     to bottom,
-                    #E6BB80,
+                    #A26C44,            /* lit top edge */
                     var(--shelf-front) 40%,
-                    #B9884E
+                    #6E4429
             );
             box-shadow: 0 0.15em 0.3em var(--shelf-shadow);
         }
@@ -127,7 +129,7 @@ body {
             height: 0.5em;
             background: linear-gradient(
                     to bottom,
-                    #9E7040,            /* shadowed at the back */
+                    #5A3720,            /* shadowed at the back */
                     var(--shelf-top) 60%
             );
             clip-path: polygon(
@@ -151,8 +153,6 @@ body {
     padding: 0 1em 0 1em;
 }
 
-
-
 .book:hover {
     transform: scale(1.1);
 }
@@ -166,4 +166,3 @@ body {
         top: 1.75em;
     }
 }
-
