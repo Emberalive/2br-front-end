@@ -2,16 +2,17 @@ import {type Book} from './BookCase'
 import {type Dispatch, type SetStateAction, useState} from "react"
 import * as React from "react";
 import BookLoader from '../assets/book-loader.svg'
+import type {NotificationType} from "../types.ts";
 
 type Props = {
     setBooks: Dispatch<SetStateAction<Book[]>>
     setActiveView: Dispatch<SetStateAction<string>>
     api:string
     sessionId:string | null
+    handleNotification: (type: NotificationType, message: string) => void
 }
 
-
-export default function AddBook({setBooks, api, setActiveView, sessionId}:Props) {
+export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification}:Props) {
     const [fetchingBook, setFetchingBook] = React.useState<boolean>(false)
     const [bookName, setBookName] = useState("")
 
@@ -28,15 +29,18 @@ export default function AddBook({setBooks, api, setActiveView, sessionId}:Props)
                 param: bookName,
             })
         })
-        if (!response.ok) return
         const resData = await response.json()
-        if (!resData.success) return
+        if (!resData.success) {
+            handleNotification('error', resData.message)
+            return
+        }
 
         setBooks((prev):Book[] =>  {
             return [...prev, resData.book]
         })
         setFetchingBook(false);
         setActiveView("bookcase")
+        handleNotification('info', `book: ${resData.book.title} has been added successfully.`)
         return
     }
 

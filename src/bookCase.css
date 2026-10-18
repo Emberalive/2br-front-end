@@ -5,6 +5,7 @@ html {
 
 body {
     margin: 0;
+    color: var(--book-case-text-color);
 }
 
 .bookCase {
@@ -31,7 +32,7 @@ body {
         justify-content: space-between;
         align-items: center;
         z-index: 1;
-        color: #F2E2CC;
+        color: var(--book-case-text-color);
         background:
                 var(--linear-wood-gradient),
                 linear-gradient(
@@ -45,7 +46,8 @@ body {
         p {
             margin: 0;
             font-weight: 400;
-            font-size: 1em;
+            font-size: .5em;
+            padding: .2em;
         }
 
         .menu {
@@ -161,7 +163,6 @@ body {
     .shelf-wrapper {
         height: 5.5em;
     }
-
     .book-wrapper {
         top: 1.75em;
     }

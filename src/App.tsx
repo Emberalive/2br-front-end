@@ -3,8 +3,10 @@ import BookCase, {type Book} from "./components/BookCase.tsx";
 import {type JSX, useEffect, useState} from "react";
 import AddBook from "./components/AddBook.tsx";
 import Login from "./components/Login.tsx";
+import NotificationComponent from "./components/Notification.tsx";
 import BookExpanded from "./components/BookExpanded.tsx";
-
+import {nanoid} from "nanoid";
+import type {NotificationType, Notification} from "./types.ts";
 
 export type User = {
     id: string;
@@ -18,6 +20,33 @@ export default function  App(): JSX.Element {
     const [user, setUser] = useState<User | object>({})
     const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem("sessionId"))
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    function handleNotification(type: NotificationType, message: string): void {
+        const id = nanoid();
+
+        setNotifications(prev => [...prev, { id, type, message, active: false }]);
+
+        // let the browser draw the element first, then start the transition
+        setTimeout(() => {
+            setNotifications(prev =>
+                prev.map(n => (n.id === id ? { ...n, active: true } : n))
+            );
+        }, 10);
+
+        setTimeout(() => {
+            setNotifications(prev =>
+                prev.map(n => (n.id === id ? { ...n, active: false } : n))
+            );
+        }, 3000);
+
+        // remove from the DOM once the transition has finished
+        setTimeout(() => {
+            setNotifications(prev => prev.filter(n => n.id !== id));
+        }, 3400); // 3000ms visible + 400ms transition
+    }
+
 
     useEffect(() => {
         async function authenticateSession (sessionId: string | null): Promise<void> {
@@ -37,11 +66,11 @@ export default function  App(): JSX.Element {
         }
         authenticateSession(sessionId);
 
-    }, []);
+    }, [sessionId]);
 
     useEffect(() => {
         async function getBooks () {
-            const url = `${API}book/getall`;
+            const url = `${API}book/getall/user`;
             try {
                 const response = await fetch(url, {
                     method: "GET",
@@ -55,16 +84,17 @@ export default function  App(): JSX.Element {
                 console.error("Get books failed", e);
             }
         }
-        if(sessionId === "") return
+        if (!sessionId) return
         getBooks()
-    }, [])
+    }, [sessionId])
 
     return (
       <main>
           {selectedBook &&<BookExpanded book={selectedBook} setSelectedBook={setSelectedBook}/>}
-          {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId}/>}
+          {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId} handleNotification={handleNotification}/>}
           {!selectedBook && activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
-          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId}/>}
+          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification}/>}
+          <NotificationComponent notifications={notifications}/>
       </main>
     )
 }

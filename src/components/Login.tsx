@@ -1,10 +1,12 @@
 import * as React from "react";
+import type {NotificationType} from "../types.ts";
 
 type propTypes = {
     setActiveView: React.Dispatch<React.SetStateAction<string>>;
     api: string
     setUser: React.Dispatch<React.SetStateAction<object>>;
     setSessionId: React.Dispatch<React.SetStateAction<string | null>>;
+    handleNotification: (type: NotificationType, message: string) => void
 }
 
 export default function Login({setActiveView, api, setUser, setSessionId}: propTypes) {
@@ -57,11 +59,8 @@ export default function Login({setActiveView, api, setUser, setSessionId}: propT
                             setPassword(e.target.value)
                         }}></input>
                     </div>
-                    <div className="buttons">
-                        <button>{loginView ? "Login" : "Register"}</button>
-                        <button onClick={() => {
-                            setActiveView("bookcase")
-                        }}>cancel</button>
+                    <div style={{display: "flex", justifyContent: "flex-end", width: "100%"}}>
+                        <button>Submit</button>
                     </div>
                     <div className="link__buttons">
                         <p className={"link-button"} onClick={() => {
