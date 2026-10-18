@@ -1,10 +1,11 @@
 import * as React from "react";
 import type {NotificationType} from "../types.ts";
+import type {User} from "../App.tsx";
 
 type propTypes = {
     setActiveView: React.Dispatch<React.SetStateAction<string>>;
     api: string
-    setUser: React.Dispatch<React.SetStateAction<object>>;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
     setSessionId: React.Dispatch<React.SetStateAction<string | null>>;
     handleNotification: (type: NotificationType, message: string) => void
 }

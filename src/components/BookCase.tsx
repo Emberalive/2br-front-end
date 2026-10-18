@@ -13,12 +13,11 @@ export type Book = {
 type BookCaseProps = {
     books: Book[];
     setActiveView: (activeView:string) => void;
-    user: User | object
+    user: User | null
     setSelectedBook: Dispatch<SetStateAction<Book | null>>
 }
 
 export default function BookCase({books, setActiveView, user, setSelectedBook}:BookCaseProps) {
-
     const [viewPort, setViewPort ] = useState<number>(window.innerWidth);
 
     const windowWidth = window.innerWidth
@@ -44,7 +43,9 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
 
     const shelves = chunk(books, BOOKS_PER_SHELF);
     while (shelves.length < MIN_SHELVES) shelves.push([]);
-
+    if (!user) {
+        return
+    }
     return (
         <>
             <div className="bookCase">
