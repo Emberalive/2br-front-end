@@ -449,4 +449,22 @@ button:hover {
             font-size: .75em;
         }
     }
+    button {
+        font-size: .75em;
+    }
+    form {
+        .link__buttons {
+            .link-button {
+                font-size: .4em ;
+            }
+        }
+    }
+
+
+    .component__wrapper {
+        .component__container {
+            max-width: 90%;
+        }
+    }
+
 }
