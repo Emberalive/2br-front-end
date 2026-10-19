@@ -14,7 +14,7 @@ export type User = {
 }
 
 export default function  App(): JSX.Element {
-    const API:string = "http://localhost:2000/";
+    const API:string = "/api/";
     const [activeView, setActiveView] = useState<string>("login");
     const [books, setBooks] = useState<Book[]>([]);
     const [user, setUser] = useState<User | null>(null)

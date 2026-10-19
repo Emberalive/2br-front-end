@@ -1,6 +1,7 @@
 import type {Book} from "./BookCase.tsx";
 import {type Dispatch, type SetStateAction, useState} from "react";
-import type {NotificationType} from "../types.ts";
+import type {NotificationType, Review} from "../types.ts";
+import ReviewElement from "./Review";
 
 type BookExpanded = {
     book: Book;
@@ -13,6 +14,7 @@ type BookExpanded = {
 export default function BookExpanded({book, setSelectedBook, api, handleNotification, sessionId}:BookExpanded) {
     const [addingReview, setAddReview] = useState<boolean>(false);
     const [reviewContent, setReviewContent] = useState<string>("");
+    const [bookReviews, setBookReviews] = useState<Review[]>([]);
 
     async function onSubmit() {
         if (reviewContent === "") {
@@ -43,6 +45,27 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
         }
     }
 
+    async function getReviews () {
+        try {
+            const response = await fetch(`${api}review/${encodeURIComponent(book.id)}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-session-id": sessionId ? sessionId : "",
+                }
+            })
+            const resData = await response.json()
+            if (!resData.success) {
+                handleNotification('error', resData.message)
+            }
+            setBookReviews(resData.rows)
+        } catch (e) {
+            handleNotification('error', 'Sorry there was a server error')
+            console.log("error", e)
+        }
+     }
+    const reviewElements = bookReviews.map((review:Review) => <ReviewElement review={review}/>)
+
     return (
         <div className={"component__wrapper"} style={{justifyContent: "space-evenly"}}>
             <div className={"expanded-book__wrapper"}>
@@ -60,7 +83,9 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                     </div>
                     <div className={"reviews"}>
                         <div className={"review-header"}>
-                            <p className={"label"}>Reviews</p>
+                            <p className={"label"} onClick={async () => {
+                                await getReviews()
+                            }}>Reviews</p>
                             <div className={"buttons"}>
                                 <button onClick={async() => {
                                     if (addingReview) {
@@ -76,6 +101,9 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                         {addingReview && <textarea value={reviewContent} className={"review-body"} onChange={(e) => {
                             setReviewContent(e.target.value)
                         }}></textarea>}
+                        <div className={"reviews-container"}>
+                            {bookReviews.length ? reviewElements : <p style={{color: "var(--header)"}}>No Reviews yet, why not add one</p>}
+                        </div>
                     </div>
                 </div>
             </div>

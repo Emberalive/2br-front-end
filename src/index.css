@@ -110,7 +110,7 @@ textarea {
 }
 
 .book-details {
-    padding: .25em;
+    padding: .1em;
     width: 8em;
     background: var(--linear-wood-gradient), var(--wood-back);
     margin-top: .5em;
@@ -316,20 +316,73 @@ button:hover {
             animation-fill-mode: forwards;
         }
         .review-header {
+            padding: .1em;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            margin: .1em 0;
+            align-items: center;
+            margin-top: .1em;
             .label {
                 font-weight: bold;
                 color: var(--book-case-text-color);
                 margin: 0;
+                cursor: pointer;
+            }
+            .label:hover {
+                border-radius: .2em;
+                padding: .25em;
+                background: var(--linear-wood-gradient);
+                background-color: var(--shelf-front);
+                transform: scale(1.1);
+                transition: 0.15s;
+                box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
             }
             .buttons {
                 display: flex;
                 flex-direction: row;
                 height: fit-content;
                 gap: .2em;
+            }
+        }
+        .reviews-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: .1em;
+            .review {
+                background-color: var(--header);
+                border-radius: .1em;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: calc(100% - .25em);
+                padding:.01em .05em .05em;
+                .review-header {
+                    color: var(--shelf-front);
+                    font-size: .5em;
+                    margin: 0;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    padding: 0;
+                    .review_date {
+                        text-align: right;
+                    }
+                }
+                .review-header > * {
+                    line-height: 1;
+                }
+                p {
+                    margin: 0;
+                }
+                .review-content {
+                    border-radius: .15em;
+                    width: calc(100% - .02em);
+                    background: var(--linear-wood-gradient), var(--shelf-front);
+                    font-size: .3em;
+                }
             }
         }
     }
@@ -339,7 +392,6 @@ button:hover {
     from {height: 0;}
     to {height: 4em}
 }
-
 
 @media (max-width: 600px) {
     main {
