@@ -8,6 +8,9 @@ export type Book = {
     authors: string[];
     cover: string;
     title: string;
+    leant: boolean;
+    leant_to: string;
+    finished: boolean;
 }
 
 type BookCaseProps = {

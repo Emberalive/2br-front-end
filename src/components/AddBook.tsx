@@ -57,7 +57,7 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
                             setBookName(e.target.value)
                         }}></input>
                     </div>
-                    <div className="buttons">
+                    <div className={fetchingBook ? "buttons disabled" : "buttons"}>
                         <button>Add</button>
                         <button onClick={() => {
                             setActiveView("bookcase")

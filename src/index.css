@@ -39,6 +39,11 @@ main {
     font-size: 75px;
 }
 
+.disabled {
+    opacity: .5;
+    cursor: none;
+ }
+
 form {
     display: flex;
     flex-direction: column;
@@ -301,6 +306,54 @@ button:hover {
             margin: 0;
         }
     }
+    .book-meta {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        .label {
+            font-weight: bold;
+            color: var(--wall-dark);
+            margin: 0;
+        }
+        input[type="checkbox"] {
+            appearance: none;
+            border: 2px solid var(--wall-dark);
+            width: 2em;
+            height: 2em;
+            border-radius: .5em;
+            background-color: var(--shelf-front);
+            cursor: pointer;
+            display: grid;
+            place-content: center;
+        }
+
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.5em;
+            height: 1em;
+            border: solid var(--wall-dark);
+            border-width: 0 0.25em 0.25em 0;
+            transform: rotate(45deg) scale(0);
+            transform-origin: center;
+            transition: transform 0.12s ease-in-out;
+            margin-top: -0.2em;
+        }
+
+        input[type="checkbox"]:checked::before {
+            transform: rotate(45deg) scale(1);
+        }
+
+        input[type="checkbox"]:hover {
+            outline: #9A6836 2px solid;
+        }
+
+        input[type="checkbox"]:focus-visible {
+            outline: #9A6836 2px solid;
+            outline-offset: 2px;
+        }
+    }
+
     .reviews {
         border-top: 2px solid var(--header);
         padding-top: .1em;
@@ -327,15 +380,6 @@ button:hover {
                 color: var(--book-case-text-color);
                 margin: 0;
                 cursor: pointer;
-            }
-            .label:hover {
-                border-radius: .2em;
-                padding: .25em;
-                background: var(--linear-wood-gradient);
-                background-color: var(--shelf-front);
-                transform: scale(1.1);
-                transition: 0.15s;
-                box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
             }
             .buttons {
                 display: flex;

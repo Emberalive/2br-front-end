@@ -1,7 +1,9 @@
 import type {Book} from "./BookCase.tsx";
-import {type Dispatch, type SetStateAction, useState} from "react";
+import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import type {NotificationType, Review} from "../types.ts";
 import ReviewElement from "./Review";
+import type {User} from "../App.tsx";
+const uuid = () => crypto.randomUUID();
 
 type BookExpanded = {
     book: Book;
@@ -9,12 +11,17 @@ type BookExpanded = {
     api: string;
     handleNotification: (type: NotificationType, message: string) => void
     sessionId:string | null;
+    user: User | null;
 }
 
-export default function BookExpanded({book, setSelectedBook, api, handleNotification, sessionId}:BookExpanded) {
+export default function BookExpanded({book, setSelectedBook, api, handleNotification, sessionId, user}:BookExpanded) {
     const [addingReview, setAddReview] = useState<boolean>(false);
     const [reviewContent, setReviewContent] = useState<string>("");
     const [bookReviews, setBookReviews] = useState<Review[]>([]);
+
+    if (user === null) {
+        return
+    }
 
     async function onSubmit() {
         if (reviewContent === "") {
@@ -38,6 +45,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                 handleNotification('error', resData.message)
                 return
             }
+            setBookReviews((prev) => [{created_at: new Date().toISOString().slice(0, 19).replace('T', ' '), id:uuid(), content: reviewContent, username: user.username} , ...prev])
             handleNotification('info', "Your review was added successfully.")
         } catch (e) {
             handleNotification('error', 'Sorry there was a server error')
@@ -45,25 +53,29 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
         }
     }
 
-    async function getReviews () {
-        try {
-            const response = await fetch(`${api}review/${encodeURIComponent(book.id)}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-session-id": sessionId ? sessionId : "",
+    useEffect(() => {
+        async function getReviews () {
+            try {
+                const response = await fetch(`${api}review/${encodeURIComponent(book.id)}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-session-id": sessionId ? sessionId : "",
+                    }
+                })
+                const resData = await response.json()
+                if (!resData.success) {
+                    handleNotification('error', resData.message)
                 }
-            })
-            const resData = await response.json()
-            if (!resData.success) {
-                handleNotification('error', resData.message)
+                setBookReviews(resData.rows)
+            } catch (e) {
+                handleNotification('error', 'Sorry there was a server error')
+                console.log("error", e)
             }
-            setBookReviews(resData.rows)
-        } catch (e) {
-            handleNotification('error', 'Sorry there was a server error')
-            console.log("error", e)
         }
-     }
+        getReviews();
+    }, [])
+
     const reviewElements = bookReviews.map((review:Review) => <ReviewElement review={review}/>)
 
     return (
@@ -81,15 +93,28 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                         <p className={"label"}>Author(s): </p>
                         <p>{book.authors.join(', ')}</p>
                     </div>
+                    <div className={"book-meta"}>
+                        <p className={"label"}>Read: </p>
+                        <input type={"checkbox"}/>
+                    </div>
+                    <div className={"book-meta"}>
+                        <p className={"label"}>Lent out:</p>
+                        <input type={"checkbox"}/>
+                    </div>
+                    {book.leant && <div className={"book-details__entry"}>
+                        <p className={"label"}>Lent to: </p>
+                        <p>{book.leant_to}</p>
+                    </div>}
                     <div className={"reviews"}>
                         <div className={"review-header"}>
-                            <p className={"label"} onClick={async () => {
-                                await getReviews()
-                            }}>Reviews</p>
+                            <p className={"label"}>Reviews</p>
                             <div className={"buttons"}>
                                 <button onClick={async() => {
                                     if (addingReview) {
                                         await onSubmit()
+                                        setAddReview(false)
+                                        setReviewContent("")
+                                        return
                                     }
                                     setAddReview(true)
                                 }}>{addingReview ? "submit" : "add"}</button>
