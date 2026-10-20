@@ -12,15 +12,45 @@ type BookExpanded = {
     handleNotification: (type: NotificationType, message: string) => void
     sessionId:string | null;
     user: User | null;
+    setBooks: Dispatch<SetStateAction<Book[]>>;
 }
 
-export default function BookExpanded({book, setSelectedBook, api, handleNotification, sessionId, user}:BookExpanded) {
+export default function BookExpanded({book, setSelectedBook, api, handleNotification, sessionId, user, setBooks}:BookExpanded) {
     const [addingReview, setAddReview] = useState<boolean>(false);
     const [reviewContent, setReviewContent] = useState<string>("");
     const [bookReviews, setBookReviews] = useState<Review[]>([]);
+    const [metaDetails, setMetaDetails] = useState<Book>(book)
 
-    if (user === null) {
-        return
+    // if (user === null) {
+    //     return
+    // }
+
+    useEffect(() => {
+        console.log(JSON.stringify(metaDetails, null, 2));
+    }, [metaDetails]);
+
+    async function submitMetaDetails () {
+        const response = await fetch(`${api}book`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "x-session-id": sessionId ? sessionId : ""
+            },
+            body: JSON.stringify(metaDetails)
+        })
+        const resData = await response.json();
+        if (!resData.success || !resData) {
+            return handleNotification("error", resData.message);
+        }
+        setBooks((prev) => {
+            return prev.map((b) => {
+                if (b.id === metaDetails.id) {
+                    return metaDetails
+                }
+                return b
+            })
+        })
+        return handleNotification("info", "updated book details")
     }
 
     async function onSubmit() {
@@ -85,8 +115,11 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                 <div className={"book-details"}>
                     <header>
                         <h1>{book.title}</h1>
-                        <button onClick={() => {
+                        <button onClick={async() => {
                             setSelectedBook(null)
+                            if (metaDetails !== book) {
+                                await submitMetaDetails()
+                            }
                         }}>X</button>
                     </header>
                     <div className={"book-details__entry"}>
@@ -95,15 +128,35 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                     </div>
                     <div className={"book-meta"}>
                         <p className={"label"}>Read: </p>
-                        <input type={"checkbox"}/>
+                        <input type={"checkbox"} checked={metaDetails.finished} onChange={(e) => {
+                            setMetaDetails((prev) => {
+                                return {
+                                    ...prev,
+                                    finished: e.target.checked
+                                }
+                            })
+                        }}/>
                     </div>
                     <div className={"book-meta"}>
                         <p className={"label"}>Lent out:</p>
-                        <input type={"checkbox"}/>
+                        <input type={"checkbox"} checked={metaDetails.leant} onChange={(e) => {
+                            console.log("leant out?: ", e.target.checked)
+                            setMetaDetails((prev) => {
+                                return {
+                                    ...prev,
+                                    leant: e.target.checked
+                                }
+                            })
+                        }}/>
                     </div>
-                    {book.leant && <div className={"book-details__entry"}>
+                    {metaDetails.leant && <div className={"book-details__entry"} style={{flexDirection: "column", width: "calc(100% - .2em)"}} >
                         <p className={"label"}>Lent to: </p>
-                        <p>{book.leant_to}</p>
+                        <input type={"text"} value={metaDetails.leant_to} onChange={(e) => {
+                            setMetaDetails((prev) => {
+                                return {...prev, leant_to: e.target.value}
+
+                            })
+                        }}/>
                     </div>}
                     <div className={"reviews"}>
                         <div className={"review-header"}>

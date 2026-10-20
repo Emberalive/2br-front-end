@@ -107,7 +107,7 @@ textarea {
 
 .expanded-book {
     width: 6em;
-    height: 8em;
+    height: 9em;
 }
 
 .book-details > * {
@@ -175,37 +175,15 @@ textarea {
     }
 }
 
-@media (max-width: 600px) {
-    .component__wrapper {
-        .component__container {
-            width: 90%;
-            header {
-                font-size: .5em;
-            }
-        }
-    }
-}
-
-button {
-    border: none;
+input[type="text"] {
+    font-size: .35em;
+    padding: 5px;
+    background: var(--linear-wood-gradient);
+    width: 100%;
+    background-color: var(--shelf-front);
     outline: none;
-    cursor: pointer;
-    font-size: .4em;
-    border-radius: 0.2em 0.2em 0.2em 0.2em;
-    padding: 0.25em;
-    color: var(--book-case-text-color);
-    background:
-            repeating-linear-gradient(
-                    to bottom,
-                    transparent 0 5px,
-                    rgba(60, 30, 10, 0.1) 5px 6px,
-                    transparent 6px 14px
-            ),
-            linear-gradient(
-                    to bottom,
-                    #9A6836,
-                    var(--header) 75%
-            );
+    border: none;
+    border-radius: var(--container-padding);
 }
 
 .form-element {
@@ -215,16 +193,6 @@ button {
     label {
         font-size: .35em;
         font-weight: bold;
-    }
-    input {
-        font-size: .35em;
-        width: calc(100% - 2 * var(--container-padding));
-        padding: 5px;
-        background: var(--linear-wood-gradient);
-        background-color: var(--shelf-front);
-        outline: none;
-        border: none;
-        border-radius: var(--container-padding);
     }
 }
 
@@ -289,9 +257,10 @@ button:hover {
     overflow-y: scroll;
     scroll-behavior: smooth;
     padding: .2em;
+    height: 80%;
     .expanded-book {
         width: 6em;
-        height: 8em;
+        height: 9em;
     }
     .book-details__entry {
         display: flex;
@@ -439,7 +408,7 @@ button:hover {
 
 @media (max-width: 600px) {
     main {
-        font-size: 35px;
+        font-size: 45px;
     }
     .form-element {
         input {
@@ -460,11 +429,42 @@ button:hover {
         }
     }
 
-
     .component__wrapper {
         .component__container {
             max-width: 90%;
+            header {
+                font-size: .5em;
+            }
+            .buttons, div {
+                button {
+                    font-size: .5em;
+                }
+            }
         }
     }
+    .expanded-book__wrapper {
+        height: fit-content;
+    }
+}
 
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: .4em;
+    border-radius: 0.2em 0.2em 0.2em 0.2em;
+    padding: 0.25em;
+    color: var(--book-case-text-color);
+    background:
+            repeating-linear-gradient(
+                    to bottom,
+                    transparent 0 5px,
+                    rgba(60, 30, 10, 0.1) 5px 6px,
+                    transparent 6px 14px
+            ),
+            linear-gradient(
+                    to bottom,
+                    #9A6836,
+                    var(--header) 75%
+            );
 }
