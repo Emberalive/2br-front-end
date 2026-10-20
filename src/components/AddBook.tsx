@@ -10,9 +10,10 @@ type Props = {
     api:string
     sessionId:string | null
     handleNotification: (type: NotificationType, message: string) => void
+    randomPlaceholder: () => string
 }
 
-export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification}:Props) {
+export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification, randomPlaceholder}:Props) {
     const [fetchingBook, setFetchingBook] = React.useState<boolean>(false)
     const [bookName, setBookName] = useState("")
 
@@ -32,11 +33,13 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
         const resData = await response.json()
         if (!resData.success) {
             handleNotification('error', resData.message)
+            setFetchingBook(false);
+            setActiveView("bookcase")
             return
         }
 
         setBooks((prev):Book[] =>  {
-            return [...prev, resData.book]
+            return [...prev, {...resData.book, placeholder: randomPlaceholder()}]
         })
         setFetchingBook(false);
         setActiveView("bookcase")

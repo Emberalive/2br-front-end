@@ -111,7 +111,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
     return (
         <div className={"component__wrapper"} style={{justifyContent: "space-evenly"}}>
             <div className={"expanded-book__wrapper"}>
-                <img className={"expanded-book"} src={book.cover} alt={book.title} />
+                <img className={"expanded-book"} style={{backgroundImage: `url(${book.placeholder})`, color: "transparent"}} src={book.cover} alt={book.title} />
                 <div className={"book-details"}>
                     <header>
                         <h1>{book.title}</h1>
@@ -180,7 +180,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                             setReviewContent(e.target.value)
                         }}></textarea>}
                         <div className={"reviews-container"}>
-                            {bookReviews.length ? reviewElements : <p style={{color: "var(--header)"}}>No Reviews yet, why not add one</p>}
+                            {bookReviews.length ? reviewElements : <p style={{color: "var(--paper-color)", width: "100%", textAlign: "center"}}>No Reviews yet, why not add one</p>}
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,14 @@
             rgba(25, 12, 4, 0.14) 5px 6px,
             transparent 6px 14px
     );
+    --linear-paper-gradient: repeating-linear-gradient(
+            to bottom,
+            transparent 0 5px,
+            rgba(25, 12, 4, 0.14) 5px 6px,
+            transparent 6px 1em
+    );
     --book-case-text-color: #F2E2CC;
+    --paper-color: #f2e8d8;
 }
 
 
@@ -64,7 +71,8 @@ form {
         .link-button {
             margin: 0;
             font-size: .2em;
-            color: var(--wall-dark);
+            color: var(--book-case-text-color);
+            font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
         }
@@ -93,7 +101,7 @@ textarea {
     z-index: 4;
     box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
     cursor: pointer;
-    background: var(--linear-wood-gradient), var(--header);
+    /*background: var(--linear-wood-gradient), var(--header);*/
     padding: 3px;
     border-radius: 3px;
 }
@@ -103,6 +111,7 @@ textarea {
     height: 100%;
     font-weight: bold;
     font-size: .2em; /* or 12px, etc. */
+    color: transparent;
 }
 
 .expanded-book {
@@ -117,6 +126,7 @@ textarea {
 .book-details {
     padding: .1em;
     width: 8em;
+    height: fit-content;
     background: var(--linear-wood-gradient), var(--wood-back);
     margin-top: .5em;
     border-radius: 0.2em;
@@ -175,7 +185,7 @@ textarea {
     }
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
     font-size: .35em;
     padding: 5px;
     background: var(--linear-wood-gradient);
@@ -254,8 +264,6 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow-y: scroll;
-    scroll-behavior: smooth;
     padding: .2em;
     height: 80%;
     .expanded-book {
@@ -324,13 +332,18 @@ button:hover {
     }
 
     .reviews {
+        max-height: 8em;
         border-top: 2px solid var(--header);
         padding-top: .1em;
         margin-top: .1em;
         display: flex;
         flex-direction: column;
         textarea {
+            background: var(--linear-paper-gradient), var(--paper-color);
             height: 4em;
+            margin-bottom: .5em;
+            border-radius: 0;
+            font-size: .2em;
             animation-name: extendOpen;
             animation-duration: 0.5s;
             animation-iteration-count: 1;
@@ -358,23 +371,27 @@ button:hover {
             }
         }
         .reviews-container {
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: .1em;
+            gap: .15em;
+            padding: .2em;
+            background-color: #3b2414;
+            border-radius: .2em;
             .review {
-                background-color: var(--header);
+                background-color: var(--paper-color);
                 border-radius: .1em;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                width: calc(100% - .25em);
-                padding:.01em .05em .05em;
+                width: calc(100% - .4em);
+                padding:.2em;
                 .review-header {
-                    color: var(--shelf-front);
+                    margin-bottom: .2em;
+                    color: #3b2414;
                     font-size: .5em;
-                    margin: 0;
                     width: 100%;
                     display: flex;
                     flex-direction: row;
@@ -382,6 +399,10 @@ button:hover {
                     padding: 0;
                     .review_date {
                         text-align: right;
+                        color: #8a6a4f;
+                    }
+                    .review_username {
+                        font-weight: bold;
                     }
                 }
                 .review-header > * {
@@ -391,10 +412,13 @@ button:hover {
                     margin: 0;
                 }
                 .review-content {
+                    padding: .21em .2em;
+                    background: var(--linear-paper-gradient), var(--paper-color);
                     border-radius: .15em;
                     width: calc(100% - .02em);
-                    background: var(--linear-wood-gradient), var(--shelf-front);
-                    font-size: .3em;
+                    font-size: .225em;
+                    color: var(--header);
+                    font-family: 'Inter', sans-serif;
                 }
             }
         }
@@ -467,4 +491,21 @@ button {
                     #9A6836,
                     var(--header) 75%
             );
+}
+
+@media (max-width: 500px) {
+    .component__wrapper {
+        .component__container {
+            flex-direction: column;
+            gap: 0;
+            header {
+                border-right: none;
+                height: fit-content;
+                border-bottom: 2px solid var(--header);
+                h1 {
+                    margin: 0;
+                }
+            }
+        }
+    }
 }

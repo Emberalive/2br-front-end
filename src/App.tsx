@@ -7,6 +7,11 @@ import NotificationComponent from "./components/Notification.tsx";
 import BookExpanded from "./components/BookExpanded.tsx";
 import {nanoid} from "nanoid";
 import type {NotificationType, Notification} from "./types.ts";
+import placeholder1 from './assets/cover-1.svg'
+import placeholder2 from './assets/cover-2.svg'
+import placeholder3 from './assets/cover-3.svg'
+import placeholder4 from './assets/cover-4.svg'
+import placeholder5 from './assets/cover-5.svg'
 
 export type User = {
     id: string;
@@ -20,8 +25,18 @@ export default function  App(): JSX.Element {
     const [user, setUser] = useState<User | null>(null)
     const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem("sessionId"))
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-
     const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    const placeholders = [
+        placeholder1,
+        placeholder2,
+        placeholder3,
+        placeholder4,
+        placeholder5,
+    ]
+
+    const randomPlaceholder = () =>
+        placeholders[Math.floor(Math.random() * placeholders.length)];
 
     function handleNotification(type: NotificationType, message: string): void {
         const id = nanoid();
@@ -79,7 +94,12 @@ export default function  App(): JSX.Element {
                     }
                 });
                 const data = await response.json();
-                if (data.success && data.books.length > 0) setBooks(data.books);
+                if (data.success && data.books.length > 0) {
+                    setBooks(data.books.map(book => ({
+                        ...book,
+                        placeholder: randomPlaceholder(),
+                    })));
+                }
             } catch (e) {
                 console.error("Get books failed", e);
             }
@@ -93,7 +113,7 @@ export default function  App(): JSX.Element {
           {selectedBook &&<BookExpanded book={selectedBook} setSelectedBook={setSelectedBook} api={API} handleNotification={handleNotification} sessionId={sessionId} user={user} setBooks={setBooks}/>}
           {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId} handleNotification={handleNotification}/>}
           {!selectedBook && activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
-          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification}/>}
+          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification} randomPlaceholder={randomPlaceholder}/>}
           <NotificationComponent notifications={notifications}/>
       </main>
     )

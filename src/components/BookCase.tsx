@@ -11,6 +11,7 @@ export type Book = {
     leant: boolean;
     leant_to: string;
     finished: boolean;
+    placeholder: string;
 }
 
 type BookCaseProps = {
@@ -33,7 +34,7 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
         return () => window.removeEventListener('resize', handleResize)
     }, [windowWidth])
 
-    const BOOKS_PER_SHELF:number = viewPort > 1200 ? 7 : viewPort < 900 ? viewPort < 625 ? 4 : 3 : 5;
+    const BOOKS_PER_SHELF:number = viewPort > 1200 ? 7 : viewPort < 900 ? viewPort < 625 ? viewPort < 500 ? 3: 4 : 3 : 5;
     const MIN_SHELVES = 8; // keeps the bookcase looking full when there are few books
 
     function chunk(arr:Book[], size:number) {
