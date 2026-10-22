@@ -35,7 +35,7 @@ type BookCaseProps = {
 export default function BookCase({books, setActiveView, user, setSelectedBook}:BookCaseProps) {
     const [viewPort, setViewPort ] = useState<number>(window.innerWidth);
     const windowWidth = window.innerWidth
-    const [BOOKS_PER_SHELF, setBooksPerShelf] = React.useState<number>(0)
+    const BOOKS_PER_SHELF = booksPerShelf(viewPort)
 
     const plants = [
         BunnyEarCactus,
@@ -60,7 +60,6 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
         return () => window.removeEventListener('resize', handleResize)
     }, [windowWidth])
 
-    // const BOOKS_PER_SHELF:number = viewPort > 1200 ? 8 : viewPort < 900 ? viewPort < 625 ? viewPort < 500 ? 3 : 4 : 3 : 6;
     function booksPerShelf(width: number): number {
         switch (true) {
             case width < 475: return 3;
@@ -75,24 +74,16 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
         }
     }
 
-    useEffect(() => {
-        function handleBooksPerShelf() {
-            setBooksPerShelf(booksPerShelf(viewPort))
-        }
-        handleBooksPerShelf()
-    }, [viewPort]);
-
     const MIN_SHELVES = 6; // keeps the bookcase looking full when there are few books
 
     function shuffle<T>(items: T[]): T[] {
         const a = [...items];
-        for (let i = a.length; i >= 0; i--) {
-            const j = Math.floor(Math.random() * (i));
+        for (let i = a.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
             [a[i], a[j]] = [a[j], a[i]];
         }
         return a
     }
-
 
     function chunk(arr:Book[], size:number):{books: Book[], plant: string | undefined}[] {
         let bag:string[] = []
