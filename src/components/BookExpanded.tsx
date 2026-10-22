@@ -21,26 +21,35 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
     const [bookReviews, setBookReviews] = useState<Review[]>([]);
     const [metaDetails, setMetaDetails] = useState<Book>(book)
 
-    // if (user === null) {
-    //     return
-    // }
+    function getChanges(original: Book, updated: Book) {
+        const params: string[] = [];
+        const values: (string | number | null)[] = [];
 
-    useEffect(() => {
-        console.log(JSON.stringify(metaDetails, null, 2));
-    }, [metaDetails]);
+        for (const key of Object.keys(original) as (keyof Book)[]) {
+            if (original[key] !== updated[key]) {
+                params.push(key);
+                values.push(updated[key]);
+            }
+        }
+
+        return { params, values };
+    }
 
     async function submitMetaDetails () {
+        const metaChanged = getChanges(book, metaDetails)
+        console.log(JSON.stringify(metaChanged, null, 2));
         const response = await fetch(`${api}book`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
                 "x-session-id": sessionId ? sessionId : ""
             },
-            body: JSON.stringify(metaDetails)
+            body: JSON.stringify({changes: metaChanged, user_id: user.id, book_id: book.id}),
         })
         const resData = await response.json();
         if (!resData.success || !resData) {
-            return handleNotification("error", resData.message);
+            handleNotification("info", resData.message);
+            return
         }
         setBooks((prev) => {
             return prev.map((b) => {
