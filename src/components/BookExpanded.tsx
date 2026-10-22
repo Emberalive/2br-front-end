@@ -115,7 +115,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
         getReviews();
     }, [])
 
-    const reviewElements = bookReviews.map((review:Review) => <ReviewElement review={review}/>)
+    const reviewElements = bookReviews.map((review:Review) => <ReviewElement review={review} user={user}/>)
 
     return (
         <div className={"component__wrapper"} style={{justifyContent: "space-evenly"}}>
