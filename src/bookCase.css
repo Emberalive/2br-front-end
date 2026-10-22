@@ -9,7 +9,7 @@ body {
 }
 
 .bookCase {
-    border-inline: 0.2em solid var(--frame);
+    border-inline: 0.1em solid var(--frame);
     box-shadow: 0 0.2em 0.5em var(--shelf-shadow);
     position: relative;
     display: flex;
@@ -24,8 +24,12 @@ body {
         height: 100%;
         width: 100%;
     }
+    .header > * {
+        position: relative;
+    }
 
     .header {
+        position: relative;
         width: 100%;
         height: 1.5em;
         display: flex;
@@ -70,6 +74,14 @@ body {
             }
         }
     }
+    .header::before {
+        content: '';
+        position: absolute;
+        inset: 0.15em 0;
+        background-color: #c9a86a;
+        mask: var(--engraving) center / contain no-repeat;
+        pointer-events: none;
+    }
 }
 
 .side {
@@ -92,7 +104,7 @@ body {
 }
 
 .shelf-wrapper {
-    height: 4.5em;
+    height: 4em;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -107,13 +119,13 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 1.5em;
+        height: 1em;
 
         .front {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 1em;
+            height: .5em;
             background: linear-gradient(
                     to bottom,
                     #A26C44,            /* lit top edge */

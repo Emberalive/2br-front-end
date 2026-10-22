@@ -7,11 +7,13 @@ import NotificationComponent from "./components/Notification.tsx";
 import BookExpanded from "./components/BookExpanded.tsx";
 import {nanoid} from "nanoid";
 import type {NotificationType, Notification} from "./types.ts";
-import placeholder1 from './assets/cover-1.svg'
-import placeholder2 from './assets/cover-2.svg'
-import placeholder3 from './assets/cover-3.svg'
-import placeholder4 from './assets/cover-4.svg'
-import placeholder5 from './assets/cover-5.svg'
+import placeholder1 from './assets/placeholders/cover-1.svg'
+import placeholder2 from './assets/placeholders/cover-2.svg'
+import placeholder3 from './assets/placeholders/cover-3.svg'
+import placeholder4 from './assets/placeholders/cover-4.svg'
+import placeholder5 from './assets/placeholders/cover-5.svg'
+
+
 
 export type User = {
     id: string;
@@ -95,7 +97,7 @@ export default function  App(): JSX.Element {
                 });
                 const data = await response.json();
                 if (data.success && data.books.length > 0) {
-                    setBooks(data.books.map(book => ({
+                    setBooks(data.books.map((book:Book) => ({
                         ...book,
                         placeholder: randomPlaceholder(),
                     })));
