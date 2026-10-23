@@ -91,6 +91,7 @@ textarea {
 }
 
 .book {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,9 +102,31 @@ textarea {
     z-index: 4;
     box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
     cursor: pointer;
-    /*background: var(--linear-wood-gradient), var(--header);*/
     padding: 3px;
     border-radius: 3px;
+
+    .check {
+        position: absolute;
+        bottom: -.1em;
+        right: -.1em;
+        width: .35em;
+        height: .35em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: var(--shelf-front);
+    }
+    .check::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        height: 25%;
+        border-bottom: 2px solid var(--book-case-text-color);
+        border-left: 2px solid var(--book-case-text-color);
+        transform: translate(-55%, -70%) rotate(-45deg);    }
 }
 
 .plant {

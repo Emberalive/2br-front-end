@@ -11,7 +11,7 @@ type BookExpanded = {
     api: string;
     handleNotification: (type: NotificationType, message: string) => void
     sessionId:string | null;
-    user: User | null;
+    user: User;
     setBooks: Dispatch<SetStateAction<Book[]>>;
 }
 

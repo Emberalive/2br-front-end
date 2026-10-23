@@ -18,6 +18,8 @@ export default function BookElement ({bookDetails, setSelectedBook}:BookProps) {
             <div className="book" onClick={() => {
                 setSelectedBook(bookDetails)
             }}>
+                {bookDetails.finished && <div className="check">
+                </div>}
                 <img style={{backgroundImage: `url(${bookDetails.placeholder})`}} src={bookDetails.cover} alt={bookDetails.title} loading="lazy"/>
             </div>
         )

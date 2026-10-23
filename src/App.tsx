@@ -112,7 +112,7 @@ export default function  App(): JSX.Element {
 
     return (
       <main>
-          {selectedBook &&<BookExpanded book={selectedBook} setSelectedBook={setSelectedBook} api={API} handleNotification={handleNotification} sessionId={sessionId} user={user} setBooks={setBooks}/>}
+          {(selectedBook && user) && <BookExpanded book={selectedBook} setSelectedBook={setSelectedBook} api={API} handleNotification={handleNotification} sessionId={sessionId} user={user} setBooks={setBooks}/>}
           {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId} handleNotification={handleNotification}/>}
           {!selectedBook && activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
           {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification} randomPlaceholder={randomPlaceholder}/>}
