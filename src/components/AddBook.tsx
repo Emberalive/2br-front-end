@@ -41,9 +41,12 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
         setBooks((prev):Book[] =>  {
             return [...prev, {...resData.book, placeholder: randomPlaceholder()}]
         })
-        setFetchingBook(false);
-        setActiveView("bookcase")
-        handleNotification('info', `book: ${resData.book.title} has been added successfully.`)
+        setTimeout(() => {
+            setFetchingBook(false);
+            setActiveView("bookcase")
+            handleNotification('info', `book: ${resData.book.title} has been added successfully.`)
+        }, 2000)
+
         return
     }
 

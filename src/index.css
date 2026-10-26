@@ -35,15 +35,21 @@
     --paper-color: #f2e8d8;
 }
 
+html, body {
+    margin: 0;
+    min-height: 100%;
+    background: var(--back-background);
+}
 
 main {
     width: 100%;
-    background: var(--back-background);
+    height: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /*align-items: center;*/
     font-size: 75px;
+    position: relative;
 }
 
 .disabled {
@@ -88,6 +94,17 @@ textarea {
     font-size: .3em;
     padding: .3em;
     font-family: inherit;
+}
+
+input[type=date] {
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: .3em;
+    background-color: var(--paper-color);
+    border-radius: .3em;
+    width: 30%;
+    cursor: pointer;
 }
 
 .book {
@@ -186,8 +203,9 @@ textarea {
     position: absolute;
     top: 0;
     left: 0;
+    min-height: 100%;
     width: 100%;
-    height: 100%;
+    /*height: inherit;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -310,7 +328,7 @@ button:hover {
         gap: .2em;
         .label {
             font-weight: bold;
-            color: var(--shelf-front);
+            color: #4d2c19;
             margin: 0;
         }
         p {
@@ -324,7 +342,7 @@ button:hover {
         justify-content: space-between;
         .label {
             font-weight: bold;
-            color: var(--shelf-front);
+            color: #4d2c19;
             margin: 0;
         }
         input[type="checkbox"] {

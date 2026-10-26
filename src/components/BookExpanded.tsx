@@ -3,7 +3,6 @@ import {type Dispatch, type SetStateAction, useEffect, useState} from "react";
 import type {NotificationType, Review} from "../types.ts";
 import ReviewElement from "./Review";
 import type {User} from "../App.tsx";
-const uuid = () => crypto.randomUUID();
 
 type BookExpanded = {
     book: Book;
@@ -20,7 +19,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
     const [reviewContent, setReviewContent] = useState<string>("");
     const [bookReviews, setBookReviews] = useState<Review[]>([]);
     const [metaDetails, setMetaDetails] = useState<Book>(book)
-
+    let tempId = 0;
     function getChanges(original: Book, updated: Book) {
         const params: string[] = [];
         const values: (string | number | null)[] = [];
@@ -84,7 +83,7 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                 handleNotification('error', resData.message)
                 return
             }
-            setBookReviews((prev) => [{created_at: new Date().toISOString().slice(0, 19).replace('T', ' '), id:uuid(), content: reviewContent, username: user.username} , ...prev])
+            setBookReviews((prev) => [{created_at: new Date().toLocaleDateString('en-GB'), id:`temp-${tempId++}`, content: reviewContent, username: user.username} , ...prev])
             handleNotification('info', "Your review was added successfully.")
         } catch (e) {
             handleNotification('error', 'Sorry there was a server error')
@@ -125,15 +124,20 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                     <header>
                         <h1>{book.title}</h1>
                         <button onClick={async() => {
-                            setSelectedBook(null)
                             if (metaDetails !== book) {
+                                if (metaDetails.leant) {
+                                    if (!metaDetails.leant_to || !metaDetails.leant_at) {
+                                        return handleNotification("error", "please enter a name AND date")
+                                    }
+                                }
                                 await submitMetaDetails()
                             }
+                            setSelectedBook(null)
                         }}>X</button>
                     </header>
                     <div className={"book-details__entry"}>
                         <p className={"label"}>Author(s): </p>
-                        <p>{book.authors.join(', ')}</p>
+                        <p>{book.author.join(', ')}</p>
                     </div>
                     <div className={"book-meta"}>
                         <p className={"label"}>Read: </p>
@@ -159,7 +163,18 @@ export default function BookExpanded({book, setSelectedBook, api, handleNotifica
                         }}/>
                     </div>
                     {metaDetails.leant && <div className={"book-details__entry"} style={{flexDirection: "column", width: "calc(100% - .2em)"}} >
-                        <p className={"label"}>Lent to: </p>
+                        <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
+                            <p className={"label"}>Lent to: </p>
+                            <input type={"date"} value={metaDetails.leant_at} onChange={(e) => {
+                                setMetaDetails((prev) => {
+                                    return {
+                                        ...prev,
+                                        leant_at: e.target.value
+                                    }
+                                })
+                            }}/>
+                        </div>
+
                         <input type={"text"} value={metaDetails.leant_to} onChange={(e) => {
                             setMetaDetails((prev) => {
                                 return {...prev, leant_to: e.target.value}
