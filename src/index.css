@@ -55,7 +55,7 @@ main {
 .disabled {
     opacity: .5;
     cursor: none;
- }
+}
 
 form {
     display: flex;
@@ -223,6 +223,7 @@ input[type=date] {
         box-shadow: 0 0.25em 0.35em -0.1em var(--shelf-shadow);
         padding: .25em;
         gap: 0.25em;
+        overflow-y: scroll;
         header {
             display: flex;
             align-items: center;
@@ -233,6 +234,9 @@ input[type=date] {
             height: 6em;
             border-right: 2px solid #3F2415;
             padding-right: 0.5em;
+        }
+        header > * {
+            text-align: center;
         }
     }
 }

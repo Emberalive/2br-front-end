@@ -3,6 +3,8 @@ import {type Dispatch, type SetStateAction, useState} from "react"
 import * as React from "react";
 import BookLoader from '../assets/book-loader.svg'
 import type {NotificationType} from "../types.ts";
+import CameraIcon from '../assets/camera.svg'
+import IsbnScan from "./IsbnScan.tsx";
 
 type Props = {
     setBooks: Dispatch<SetStateAction<Book[]>>
@@ -18,9 +20,13 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
     const [bookName, setBookName] = useState("")
     const [author, setAuthor] = useState("")
     const [isbn, setIsbn] = useState("")
+    const [scanning, setScanning] = useState(false)
 
-    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>):Promise<undefined> {
-        e.preventDefault();
+    async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>| undefined):Promise<undefined> {
+        if (typeof e !== "undefined"){
+            e.preventDefault()
+        }
+        setScanning(false)
         setFetchingBook(true);
         if ((bookName !== "" || author !== "") && isbn !== "") {
             handleNotification('error', 'Please add a isbn, or title and author')
@@ -58,41 +64,48 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
         return
     }
 
-    return (
-        <div className="component__wrapper">
-            <div className="component__container">
-                <header>
-                    <h1>Add Book</h1>
-                </header>
-                <form onSubmit={(e) => handleSubmit(e)}>
-                    <div className="form-element">
-                        <label>Book Name:</label>
-                        <input id={"book-name"} value={bookName} type={"text"} placeholder={"The Hobbit"} onChange={(e) => {
-                            setBookName(e.target.value)
-                        }}></input>
+    return (scanning ?
+            <IsbnScan setScanning={setScanning} setIsbn={setIsbn} />
+            :
+                <div className="component__wrapper">
+                    <div className="component__container">
+                        <header>
+                            <h1>Add Book</h1>
+                        </header>
+                        <form onSubmit={(e) => handleSubmit(e)}>
+                            <div className={isbn ? "disabled form-element" : "form-element"}>
+                                <label>Book Name:</label>
+                                <input id={"book-name"} value={bookName} type={"text"} placeholder={"The Hobbit"} onChange={(e) => {
+                                    setBookName(e.target.value)
+                                }}></input>
+                            </div>
+                            <div className={isbn ? "disabled form-element" : "form-element"}>
+                                <label>Book Author:</label>
+                                <input id={"book-author"} value={author} type={"text"} placeholder={"J.R.R. Tolkien"} onChange={(e) => {
+                                    setAuthor(e.target.value)
+                                }}></input>
+                            </div>
+                            <div style={{height: "1px", backgroundColor: "var(--header)", width: "90%", margin: "10px 0"}}></div>
+                            <div className="form-element">
+                                <label>ISBN:</label>
+                                <input id={"book-isbn"} value={isbn} type={"text"} placeholder={"7384698467125"} onChange={(e) => {
+                                    setIsbn(e.target.value)
+                                }}></input>
+                            </div>
+                            <div className={fetchingBook ? "buttons disabled" : "buttons"}>
+                                <button>Add</button>
+                                <button onClick={() => {
+                                    setActiveView("bookcase")
+                                }}>cancel</button>
+                            </div>
+                            <button className={""} title={"not implemented yet"} style={{width: "100%"}} onClick={() => {
+                                setScanning(true)
+                            }}>
+                                <img alt={"camera icon"} src={CameraIcon}/>
+                            </button>
+                        </form>
                     </div>
-                    <div className="form-element">
-                        <label>Book Author:</label>
-                        <input id={"book-author"} value={author} type={"text"} placeholder={"J.R.R. Tolkien"} onChange={(e) => {
-                            setAuthor(e.target.value)
-                        }}></input>
-                    </div>
-                    <div style={{height: "1px", backgroundColor: "var(--header)", width: "90%", margin: "10px 0"}}></div>
-                    <div className="form-element">
-                        <label>ISBN:</label>
-                        <input id={"book-isbn"} value={isbn} type={"text"} placeholder={"7384698467125"} onChange={(e) => {
-                            setIsbn(e.target.value)
-                        }}></input>
-                    </div>
-                    <div className={fetchingBook ? "buttons disabled" : "buttons"}>
-                        <button>Add</button>
-                        <button onClick={() => {
-                            setActiveView("bookcase")
-                        }}>cancel</button>
-                    </div>
-                </form>
-            </div>
-            {fetchingBook && <img src={BookLoader} width={64} alt={"Loading"}/>}
-        </div>
+                    {fetchingBook && <img src={BookLoader} width={64} alt={"Loading"}/>}
+                </div>
     )
 }

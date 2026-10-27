@@ -13,8 +13,6 @@ import placeholder3 from './assets/placeholders/cover-3.svg'
 import placeholder4 from './assets/placeholders/cover-4.svg'
 import placeholder5 from './assets/placeholders/cover-5.svg'
 
-
-
 export type User = {
     id: string;
     username: string;
