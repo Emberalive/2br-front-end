@@ -16,10 +16,16 @@ type Props = {
 export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification, randomPlaceholder}:Props) {
     const [fetchingBook, setFetchingBook] = React.useState<boolean>(false)
     const [bookName, setBookName] = useState("")
+    const [author, setAuthor] = useState("")
+    const [isbn, setIsbn] = useState("")
 
     async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>):Promise<undefined> {
         e.preventDefault();
         setFetchingBook(true);
+        if ((bookName !== "" || author !== "") && isbn !== "") {
+            handleNotification('error', 'Please add a isbn, or title and author')
+            return
+        }
         const response = await fetch(`${api}book`, {
             method: 'POST',
             headers: {
@@ -27,7 +33,9 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
                 "x-session-id": sessionId ? sessionId : "",
             },
             body: JSON.stringify({
-                param: bookName,
+                title: bookName,
+                author: author,
+                isbn: isbn,
             })
         })
         const resData = await response.json()
@@ -58,9 +66,22 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
                 </header>
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="form-element">
-                        <label>book Name:</label>
-                        <input id={"book-name"} type={"text"} placeholder={"The Hobbit"} onChange={(e) => {
+                        <label>Book Name:</label>
+                        <input id={"book-name"} value={bookName} type={"text"} placeholder={"The Hobbit"} onChange={(e) => {
                             setBookName(e.target.value)
+                        }}></input>
+                    </div>
+                    <div className="form-element">
+                        <label>Book Author:</label>
+                        <input id={"book-author"} value={author} type={"text"} placeholder={"J.R.R. Tolkien"} onChange={(e) => {
+                            setAuthor(e.target.value)
+                        }}></input>
+                    </div>
+                    <div style={{height: "1px", backgroundColor: "var(--header)", width: "90%", margin: "10px 0"}}></div>
+                    <div className="form-element">
+                        <label>ISBN:</label>
+                        <input id={"book-isbn"} value={isbn} type={"text"} placeholder={"7384698467125"} onChange={(e) => {
+                            setIsbn(e.target.value)
                         }}></input>
                     </div>
                     <div className={fetchingBook ? "buttons disabled" : "buttons"}>
