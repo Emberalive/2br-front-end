@@ -1,9 +1,9 @@
 import {type Book} from './BookCase'
 import {type Dispatch, type SetStateAction, useState} from "react"
 import * as React from "react";
-import BookLoader from '../assets/book-loader.svg'
+import BookLoader from '../assets/icons/book-loader.svg'
 import type {NotificationType} from "../types.ts";
-import CameraIcon from '../assets/camera.svg'
+import CameraIcon from '../assets/icons/camera.svg'
 import IsbnScan from "./IsbnScan.tsx";
 
 type Props = {

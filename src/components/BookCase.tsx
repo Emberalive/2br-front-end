@@ -12,6 +12,7 @@ import Snake from '../assets/plants/snake-plant.svg'
 import Cactus from '../assets/plants/teacup-cactus.svg'
 import Pilea from '../assets/plants/pilea.svg'
 import Bonsai from '../assets/plants/jade-bonsai.svg'
+import Search from "./Search.tsx"
 
 
 export type Book = {
@@ -125,7 +126,7 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
 
                 <div className="left-side side"></div>
                 <div className="right-side side"></div>
-
+                <Search />
                 {shelves.map((shelfBooks, i) => {
                     return <Shelf key={i} shelfDetails={shelfBooks} setSelectedBook={setSelectedBook} booksPerShelf={BOOKS_PER_SHELF}/>
                 })

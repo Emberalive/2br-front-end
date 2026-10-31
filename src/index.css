@@ -33,6 +33,7 @@
     );
     --book-case-text-color: #F2E2CC;
     --paper-color: #f2e8d8;
+    --button-gradient: #9A6836;
 }
 
 html, body {
@@ -174,6 +175,44 @@ input[type=date] {
     margin: 0;
 }
 
+.search-bar {
+    top: 1.75em;
+    right: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    z-index: 5;
+    background: linear-gradient(to top, rgb(225 225 225 / 0.18), rgb(225 225 225 / 0) 50% ), var(--header);
+    border-radius: .2em;
+    padding: .1em;
+    .search-icon {
+        display: flex;
+        padding: .15em;
+        background: var(--shelf-top) linear-gradient(to top, rgb(255 255 255 / 0.18), rgb(255 255 255 / 0) 50%);
+        border-radius: 0.1em;
+        cursor: pointer;
+    }
+    .search-icon:hover {
+        transform: scale(1.1);
+    }
+    input[type="text"] {
+        width: 0;
+        padding: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: width .3s ease, padding .3s ease, opacity .3s ease, visibility .3s;
+    }
+    &.open input[type="text"] {
+        margin-right: .4em;
+        width: 12em;
+        padding: 5px;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
 .book-details {
     padding: .1em;
     width: 8em;
@@ -249,7 +288,7 @@ input[type="text"], input[type="password"] {
     background-color: var(--shelf-front);
     outline: none;
     border: none;
-    border-radius: var(--container-padding);
+    border-radius: .3em;
 }
 
 .form-element {
@@ -537,14 +576,14 @@ button {
     color: var(--book-case-text-color);
     background:
             repeating-linear-gradient(
-                    to bottom,
+                    to top,
                     transparent 0 5px,
                     rgba(60, 30, 10, 0.1) 5px 6px,
                     transparent 6px 14px
             ),
             linear-gradient(
-                    to bottom,
-                    #9A6836,
+                    to top,
+                    var(--button-gradient),
                     var(--header) 75%
             );
 }
