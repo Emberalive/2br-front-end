@@ -652,4 +652,10 @@ button {
             }
         }
     }
+    .search-bar {
+        .search-icon {
+            height: .45em;
+        }
+    }
+
 }
