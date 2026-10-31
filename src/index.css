@@ -120,7 +120,6 @@ input[type=date] {
     z-index: 4;
     box-shadow: 0.5em 0.025em 0.6em var(--shelf-shadow);
     cursor: pointer;
-    padding: 3px;
     border-radius: 3px;
 
     .check {

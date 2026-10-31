@@ -25,15 +25,15 @@ export default function Search ({books, setFilteredBooks}: SearchTypes) {
         }
     }, [isOpen, searchValue]);
 
-    function handleSearch () {
+    function handleSearch (query: string) {
         console.log("SELECTED VALUE:", selected)
         if (selected?.value === "title") {
             setFilteredBooks( books.filter((book) => {
-                return book.title.toLowerCase().includes(searchValue.toLowerCase());
+                return book.title.toLowerCase().includes(query.toLowerCase());
             }))
         } else if (selected?.value === "author") {
             setFilteredBooks(books.filter(book =>
-                book.author.some(a => a.toLowerCase().includes(searchValue.toLowerCase()))
+                book.author.some(a => a.toLowerCase().includes(query.toLowerCase()))
             ));
         }
     }
@@ -54,7 +54,7 @@ export default function Search ({books, setFilteredBooks}: SearchTypes) {
                     />
                     <input type={"text"} value={searchValue} placeholder={"search..."} onChange={e => {
                         setSearchValue(e.target.value)
-                        handleSearch()
+                        handleSearch(e.target.value)
                     }} />
                 </div>
 
