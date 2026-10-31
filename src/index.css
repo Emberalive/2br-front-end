@@ -176,8 +176,8 @@ input[type=date] {
 
 .search-bar {
     top: 1.75em;
-    right: 0;
-    position: absolute;
+    right: .25em;
+    position: fixed;
     display: flex;
     flex-direction: row;
     z-index: 5;

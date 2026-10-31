@@ -173,9 +173,10 @@ body {
 
 @media (max-width: 600px) {
     .shelf-wrapper {
-        height: 5.5em;
+        height: 4em;
     }
     .book-wrapper {
-        top: 1.25em;
+        top: .25em;
+        padding: 0 .5em 0 .5em;
     }
 }
