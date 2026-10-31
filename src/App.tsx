@@ -22,6 +22,7 @@ export default function  App(): JSX.Element {
     const API:string = "/api/";
     const [activeView, setActiveView] = useState<string>("login");
     const [books, setBooks] = useState<Book[]>([]);
+    const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
     const [user, setUser] = useState<User | null>(null)
     const [sessionId, setSessionId] = useState<string | null>(localStorage.getItem("sessionId"))
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
@@ -99,6 +100,10 @@ export default function  App(): JSX.Element {
                         ...book,
                         placeholder: randomPlaceholder(),
                     })));
+                    setFilteredBooks(data.books.map((book:Book) => ({
+                        ...book,
+                        placeholder: randomPlaceholder(),
+                    })))
                 }
             } catch (e) {
                 console.error("Get books failed", e);
@@ -112,8 +117,8 @@ export default function  App(): JSX.Element {
       <main>
           {(selectedBook && user) && <BookExpanded book={selectedBook} setSelectedBook={setSelectedBook} api={API} handleNotification={handleNotification} sessionId={sessionId} user={user} setBooks={setBooks}/>}
           {!selectedBook && activeView === "login" && <Login setActiveView={setActiveView} setUser={setUser} api={API} setSessionId={setSessionId} handleNotification={handleNotification}/>}
-          {!selectedBook && activeView === "bookcase" &&<BookCase books={books} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
-          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification} randomPlaceholder={randomPlaceholder}/>}
+          {!selectedBook && activeView === "bookcase" &&<BookCase filteredBooks={filteredBooks} books={books} setFilteredBooks={setFilteredBooks} setActiveView={setActiveView} user={user} setSelectedBook={setSelectedBook}/>}
+          {!selectedBook && activeView === "addBook" &&<AddBook setBooks={setBooks} setFilteredBooks={setFilteredBooks} api={API} setActiveView={setActiveView} sessionId={sessionId} handleNotification={handleNotification} randomPlaceholder={randomPlaceholder}/>}
           <NotificationComponent notifications={notifications}/>
       </main>
     )

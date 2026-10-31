@@ -29,12 +29,14 @@ export type Book = {
 
 type BookCaseProps = {
     books: Book[];
+    filteredBooks: Book[];
+    setFilteredBooks: Dispatch<SetStateAction<Book[]>>
     setActiveView: (activeView:string) => void;
     user: User | null
     setSelectedBook: Dispatch<SetStateAction<Book | null>>
 }
 
-export default function BookCase({books, setActiveView, user, setSelectedBook}:BookCaseProps) {
+export default function BookCase({books, setActiveView, user, setSelectedBook, filteredBooks, setFilteredBooks}:BookCaseProps) {
     const [viewPort, setViewPort ] = useState<number>(window.innerWidth);
     const windowWidth = window.innerWidth
     const BOOKS_PER_SHELF = booksPerShelf(viewPort)
@@ -102,7 +104,7 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
         return out;
     }
 
-    const shelves = useMemo(() => chunk(books, BOOKS_PER_SHELF ), [books, BOOKS_PER_SHELF]);
+    const shelves = useMemo(() => chunk(filteredBooks, BOOKS_PER_SHELF ), [filteredBooks, BOOKS_PER_SHELF]);
     while (shelves.length < MIN_SHELVES) shelves.push({books: new Array(BOOKS_PER_SHELF), plant: Math.random() < 0.4 ? randomPlant() : undefined});
     if (!user) {
         return
@@ -124,7 +126,7 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
 
                 <div className="left-side side"></div>
                 <div className="right-side side"></div>
-                <Search />
+                <Search books={books} setFilteredBooks={setFilteredBooks}/>
                 {shelves.map((shelfBooks, i) => {
                     return <Shelf key={i} shelfDetails={shelfBooks} setSelectedBook={setSelectedBook} booksPerShelf={BOOKS_PER_SHELF}/>
                 })

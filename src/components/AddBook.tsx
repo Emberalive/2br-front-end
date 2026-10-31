@@ -8,6 +8,7 @@ import IsbnScan from "./IsbnScan.tsx";
 
 type Props = {
     setBooks: Dispatch<SetStateAction<Book[]>>
+    setFilteredBooks: Dispatch<SetStateAction<Book[]>>
     setActiveView: Dispatch<SetStateAction<string>>
     api:string
     sessionId:string | null
@@ -15,7 +16,7 @@ type Props = {
     randomPlaceholder: () => string
 }
 
-export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification, randomPlaceholder}:Props) {
+export default function AddBook({setBooks, api, setActiveView, sessionId, handleNotification, randomPlaceholder, setFilteredBooks}:Props) {
     const [fetchingBook, setFetchingBook] = React.useState<boolean>(false)
     const [bookName, setBookName] = useState("")
     const [author, setAuthor] = useState("")
@@ -53,6 +54,9 @@ export default function AddBook({setBooks, api, setActiveView, sessionId, handle
         }
 
         setBooks((prev):Book[] =>  {
+            return [...prev, {...resData.book, placeholder: randomPlaceholder()}]
+        })
+        setFilteredBooks((prev):Book[] =>  {
             return [...prev, {...resData.book, placeholder: randomPlaceholder()}]
         })
         setTimeout(() => {
