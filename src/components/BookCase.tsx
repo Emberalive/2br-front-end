@@ -38,7 +38,6 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
     const [viewPort, setViewPort ] = useState<number>(window.innerWidth);
     const windowWidth = window.innerWidth
     const BOOKS_PER_SHELF = booksPerShelf(viewPort)
-
     const plants = [
         BunnyEarCactus,
         Echeveria,
@@ -49,7 +48,6 @@ export default function BookCase({books, setActiveView, user, setSelectedBook}:B
         Pilea,
         Bonsai
     ]
-
     function randomPlant ():string {
         return plants[Math.floor(Math.random() * plants.length)];
     }

@@ -181,18 +181,51 @@ input[type=date] {
     position: absolute;
     display: flex;
     flex-direction: row;
-    /*justify-content: center;*/
-    /*align-items: center;*/
     z-index: 5;
     background: linear-gradient(to top, rgb(225 225 225 / 0.18), rgb(225 225 225 / 0) 50% ), var(--header);
     border-radius: .2em;
     padding: .1em;
+
+    .search-bar__container {
+        visibility: hidden;
+        height: 0;
+        opacity: 0;
+    }
+
+    &.open .search-bar__container {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        opacity: 1;
+    }
+
     .search-icon {
+        height: .3em;
         display: flex;
         padding: .15em;
         background: var(--shelf-top) linear-gradient(to top, rgb(255 255 255 / 0.18), rgb(255 255 255 / 0) 50%);
         border-radius: 0.1em;
         cursor: pointer;
+    }
+
+    .search-select {
+        font-size: .35em;
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
+        overflow: hidden;
+        transition: width .3s ease, opacity .3s ease, visibility .3s;
+    }
+
+    &.open .search-select {
+        width: 12em;
+        opacity: 1;
+        visibility: visible;
+    }
+    .search__control {
+        background: var(--header);
+        border-radius: var(--container-padding);
+        padding: 0 5px;
     }
     .search-icon:hover {
         transform: scale(1.1);
@@ -212,6 +245,22 @@ input[type=date] {
         visibility: visible;
     }
 }
+
+body > .search__menu-portal { z-index: 10; }
+
+.search__menu {
+    font-size: 1.6rem;
+    margin-top: 4px;
+    background: var(--paper-color);
+    border-radius: .2em;
+    box-shadow: 0 .25em .35em -.1em var(--shelf-shadow);
+    overflow: hidden;
+}
+
+.search__dropdown-indicator {cursor: pointer}
+.search__option { padding: .2em .4em; color: var(--header); cursor: pointer; }
+.search__option--is-focused { background: #e6d6bd; }
+.search__option--is-selected { background: var(--shelf-top); color: var(--book-case-text-color); }
 
 .book-details {
     padding: .1em;
